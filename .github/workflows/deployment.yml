@@ -1,0 +1,40 @@
+name: deployment-to-ec2-instance
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run remote SSH command
+        env:
+          SSH_HOST: ${{secrets.EC2_HOST}}
+          SSH_USER: ${{secrets.EC2_USER}}
+          SSH_KEY: ${{secrets.EC2_PRIVATE_KEY}}
+          APPPATH: ${{secrets.EC2_APPPATH}}
+        run: echo "$SSH_KEY" >> key.pem
+          chmod 600 key.pem
+
+          ssh -o StrictHostKeyChecking=no \ -i key.pem \
+          $SSH_USER@$SSH_HOST << 'EOF'
+          set -e
+          echo "▶Entrando al directorio de la aplicación"
+          cd $APPPATH
+          echo "▶Pull Request de origin main"
+          git pull origin main
+          echo "▶Instalando dependencias con composer"
+          composer install
+          echo "▶Instalando dependencias con npm"
+          npm install
+          echo "▶Construyendo build de la aplicacion"
+          npm run build
+          echo "▶Limpiando cache y config con artisan"
+          EOF
