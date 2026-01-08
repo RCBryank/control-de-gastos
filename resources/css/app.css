@@ -13,6 +13,9 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
+    --color-brand-background: #05182e;
+    --color-brand-white: #f4f4f4;
+
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
@@ -139,5 +142,34 @@
 
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@property --inputselectionangle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@layer utilities {
+
+
+    .anim-input-selection {
+        animation-name: anim-inputselection;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        background: #EDDD53;
+        background: conic-gradient(from var(--inputselectionangle), #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+        animation-timing-function: linear;
+    }
+
+    @keyframes anim-inputselection {
+        0% {
+            --inputselectionagle: 0deg;
+        }
+
+        100% {
+            --inputselectionagle: 360deg;
+        }
     }
 }
