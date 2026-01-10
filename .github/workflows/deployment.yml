@@ -34,7 +34,7 @@ jobs:
           echo "▶Instalando dependencias con npm"
           npm install
           echo "▶Deteniendo proceso mysqld"
-          sudo sytemctl stop mysqld
+          sudo systemctl stop mysqld
           echo "▶Construyendo build de la aplicacion"
           npm run build
           echo "▶Reiniciando proceso mysqld"
