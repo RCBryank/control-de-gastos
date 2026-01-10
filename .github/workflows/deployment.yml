@@ -25,15 +25,19 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST << 'EOF'
           set -e
           echo "▶Entrando al directorio de la aplicación"
-          cd /var/www/control-gastos/control-de-gastos/
+          cd /var/www/control-gastos/control-de-gastos
           echo "▶Pull Request de origin main"
           git pull origin main
           echo "▶Instalando dependencias con composer"
           composer install
           echo "▶Instalando dependencias con npm"
           npm install
+          echo "▶Deteniendo proceso mysqld"
+          sudo sytemctl stop mysqld
           echo "▶Construyendo build de la aplicacion"
           npm run build
+          echo "▶Reiniciando proceso mysqld"
+          sudo systemctl start myqsld
           EOF
           
           
