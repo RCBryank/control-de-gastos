@@ -38,5 +38,5 @@ jobs:
           echo "▶Construyendo build de la aplicacion"
           npm run build
           echo "▶Reiniciando proceso mysqld"
-          sudo systemctl start myqsld
+          sudo systemctl start mysqld
           EOF
