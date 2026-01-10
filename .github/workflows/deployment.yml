@@ -1,10 +1,10 @@
-name: deployment-to-ec2-instance
+name: DeploymentoEc2Instance
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   cd:
