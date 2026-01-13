@@ -16,4 +16,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-require __DIR__.'/settings.php';
+Route::middleware('guest')->group(function () {
+    Route::get('login', function () {
+        return Inertia::render('auth/login');
+    });
+
+    Route::post('authenticate', );
+});
+
+require __DIR__ . '/settings.php';

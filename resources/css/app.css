@@ -15,6 +15,8 @@
 
     --color-brand-background: #05182e;
     --color-brand-white: #f4f4f4;
+    --color-brand-green: #06a77d;
+    --color-brand-green-hover: #0b9571;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -145,31 +147,71 @@
     }
 }
 
-@property --inputselectionangle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-}
-
 @layer utilities {
 
+    .anim-inputcheckbox-checked {
+        animation-name: anim-inputcheckboxchecked;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-in;
+    }
+
+    .anim-inputcheckbox-unchecked {
+        animation-name: anim-inputcheckboxunchecked;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+    }
+
+    @keyframes anim-inputcheckboxchecked {
+        0% {
+            width: 0%;
+        }
+
+        100%{
+            width:  150%;
+        }
+    }
+    
+    @keyframes anim-inputcheckboxunchecked {
+        0%{
+            width:  150%;
+        }
+
+        100% {
+            width: 0%;
+        }
+    }
+
+    .anim-input-show {
+        animation-name: anim-inputshow;
+        animation-duration: 3000ms;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes anim-inputshow {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 100;
+        }
+    }
 
     .anim-input-selection {
-        animation-name: anim-inputselection;
-        animation-duration: 1000ms;
-        animation-iteration-count: infinite;
-        background: #EDDD53;
-        background: conic-gradient(from var(--inputselectionangle), #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
-        animation-timing-function: linear;
+        animation: anim-inputselection 3000ms linear 0ms infinite, anim-inputshow 300ms linear 0ms forwards;
+        background: #2A7B9B;
+        background: linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(237, 221, 83, 1) 100%);
     }
 
     @keyframes anim-inputselection {
         0% {
-            --inputselectionagle: 0deg;
+            transform: translate(-5%, -50%) rotate(0deg);
         }
 
         100% {
-            --inputselectionagle: 360deg;
+            transform: translate(-5%, -50%) rotate(360deg);
         }
     }
 }
