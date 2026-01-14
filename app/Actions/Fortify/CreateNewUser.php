@@ -69,7 +69,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $appUser = AppUser::create([
             'name' => $input['name'],
-            'lastname' => isset($input['lastname']) ? $input['lastname'] : '',
+            'lastname' => $input['lastname'] ? $input['lastname'] : '',
             'email' => $input['email'],
             'userpassword' =>  Hash::make($input['userpassword']),
             'avatar_id' => $avatar ? $avatar->id : null
