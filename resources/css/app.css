@@ -17,6 +17,10 @@
     --color-brand-white: #f4f4f4;
     --color-brand-green: #06a77d;
     --color-brand-green-hover: #0b9571;
+    --color-brand-black: #1f1f1f;
+    --color-brand-black-hover: #242323;
+    --color-brand-menuitem-selected: #2e2e2e;
+    --color-brand-accounts-item-list-1: #e1e1e1; 
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

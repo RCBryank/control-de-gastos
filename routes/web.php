@@ -14,6 +14,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('miscuentas', function(){
+        return Inertia::render('accounts');
+    })->name('accounts');
+
+    Route::get('miscuentas/nueva', function(){
+        return Inertia::render('new-account');
+    })->name('newaccount');
 });
 
 Route::middleware('guest')->group(function () {
