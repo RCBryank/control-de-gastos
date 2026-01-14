@@ -2,10 +2,13 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\AppUser;
+use App\Models\Avatar;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Symfony\Component\HttpFoundation\Request;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -16,7 +19,7 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input): User
+    public function create(array $input): string
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -25,15 +28,35 @@ class CreateNewUser implements CreatesNewUsers
                 'string',
                 'email',
                 'max:255',
-                Rule::unique(User::class),
+                Rule::unique(AppUser::class),
             ],
-            'password' => $this->passwordRules(),
+            'userpassword' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $request = request();
+        $file = $request->file('input_avatarprofile');
+
+        $avatar = null;
+        if ($file->isValid()) {
+            $path = $file->store('avatars', 'public');
+            if ($path != false) {
+                $avatar = Avatar::create([
+                    'filename' => $file->getClientOriginalName(),
+                    'public_path' => $path,
+                    'filesize' => $file->getSize()
+                ]);
+            }
+        }
+
+        $appUser = AppUser::create([
             'name' => $input['name'],
+            'lastname' => $input['lastname'],
             'email' => $input['email'],
-            'password' => $input['password'],
+            'userpassword' => $input['userpassword'],
+            'avatar_id' => $avatar ? $avatar->id : null
         ]);
+
+
+        return $appUser;
     }
 }

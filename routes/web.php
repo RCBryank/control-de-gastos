@@ -21,7 +21,9 @@ Route::middleware('guest')->group(function () {
         return Inertia::render('auth/login');
     });
 
-    Route::post('authenticate', );
+    Route::get('signup', function () {
+        return Inertia::render('auth/signup');
+    });
 });
 
 require __DIR__ . '/settings.php';
