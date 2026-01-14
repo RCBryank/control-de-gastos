@@ -51,6 +51,7 @@ export default function login({
                                 </div>
                             </div>
                             <div className="text-end">
+                                {processing.valueOf()}
                                 <BrandButtonPrimary type="submit">Entrar</BrandButtonPrimary>
                             </div>
                         </>
