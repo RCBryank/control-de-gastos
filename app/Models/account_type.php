@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class account_type extends Model
+class Account_Type extends Model
 {
     //
 }

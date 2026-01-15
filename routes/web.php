@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppuserAccountController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -15,13 +16,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::get('miscuentas', function(){
+    Route::get('miscuentas', function () {
         return Inertia::render('accounts');
     })->name('accounts');
 
-    Route::get('miscuentas/nueva', function(){
+    Route::get('miscuentas/nueva', function () {
         return Inertia::render('new-account');
     })->name('newaccount');
+
+    Route::post('miscuentas/nueva', [AppuserAccountController::class, 'store']);
+    Route::get('accounts', [AppuserAccountController::class, 'get']);
 });
 
 Route::middleware('guest')->group(function () {

@@ -11,26 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+        $this->down();
         Schema::create('appuser_account', function (Blueprint $table) {
             $table->id();
             $table->string('name', 64)->nullable(false);
-            $table->string('account_number', 64);
-            $table->string('bank');
-            $table->string('description');
+            $table->string('account_number', 64)->nullable(true);
+            $table->string('bank')->nullable(true);
+            $table->string('description')->nullable(true);
             $table->decimal('account_balance', 14, 2)->default(0);
             $table->foreignId('accounttype_id')->default(1)->constrained('account_type', 'id');
             $table->foreignId('appuser_id')->nullable(false)->constrained('app_user', 'id');
             $table->timestamps();
         });
-        /*
-            - Nombre_Cuenta
-- Numero_Cuenta
-- Banco
-- Descripcion
-- Presupuesto
-- ID_TipoCuenta
-- ID_Usuario
-        */
     }
 
     /**
