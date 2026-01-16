@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
+    //== Accounts ==/
     Route::get('miscuentas', function () {
         return Inertia::render('accounts');
     })->name('accounts');
@@ -23,9 +24,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('miscuentas/nueva', function () {
         return Inertia::render('new-account');
     })->name('newaccount');
-
     Route::post('miscuentas/nueva', [AppuserAccountController::class, 'store']);
+
     Route::get('accounts', [AppuserAccountController::class, 'get']);
+
+    //== Expense Record ==//
+    Route::get('nuevogasto', function(){
+        return Inertia::render('new-expense');
+    });
 });
 
 Route::middleware('guest')->group(function () {
