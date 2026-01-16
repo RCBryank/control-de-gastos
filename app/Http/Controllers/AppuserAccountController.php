@@ -20,6 +20,17 @@ class AppuserAccountController extends Controller
         return response()->json($accounts);
     }
 
+    public function getfromuser()
+    {
+        $user = Auth::user();
+
+        $results = Appuser_Account::select('id', 'name')
+            ->where('appuser_id', $user->id)
+            ->get()->toArray();
+
+        return response()->json($results);
+    }
+
     public function store(Request $request)
     {
         //-- Validacion valores del form

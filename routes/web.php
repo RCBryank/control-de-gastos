@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AppuserAccountController;
+use App\Http\Controllers\CategoryExpenseController;
+use App\Http\Controllers\ExpenseRecordController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -27,11 +29,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('miscuentas/nueva', [AppuserAccountController::class, 'store']);
 
     Route::get('accounts', [AppuserAccountController::class, 'get']);
+    Route::get('selectaccounts', [AppuserAccountController::class, 'getfromuser']); 
+
+    //== Expenses ==//
+    Route::get('gastos', function () {
+        return Inertia::render('expenses');
+    });
+
+    Route::get('gastos/find', [ExpenseRecordController::class, 'getfiltered']);
 
     //== Expense Record ==//
-    Route::get('nuevogasto', function(){
+    Route::get('nuevogasto', function () {
         return Inertia::render('new-expense');
     });
+    Route::post('nuevogasto', [ExpenseRecordController::class, 'store']);
+
+    Route::get('category_expense/all', [CategoryExpenseController::class, 'all']);
 });
 
 Route::middleware('guest')->group(function () {

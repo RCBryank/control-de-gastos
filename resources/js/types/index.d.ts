@@ -46,3 +46,23 @@ export interface ListAccountItem {
     name: string,
     account_balance: number
 }
+
+export interface SelectCategoryItem {
+    id: number,
+    name: string
+}
+
+export interface SelectAppUserAccountItem {
+    id: number,
+    name: string
+}
+
+export interface TableRowExpenseItem {
+    id: number,
+    concept: string,
+    expenserecord_date: string,
+    amount: number,
+    name: string,
+    notes: string,
+    categoryname: string
+}
