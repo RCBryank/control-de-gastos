@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Models\AppUser;
 use App\Models\Avatar;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
@@ -46,15 +47,16 @@ class CreateNewUser implements CreatesNewUsers
         $request = request();
         $file = $request->file('input_avatarprofile');
         $max_avatarprofile_size = 200;
-        Validator::validate(
-            array('avatarprofile' => $file),
-            ['avatarprofile' => File::types(['jpeg', 'png', 'webp'])
-                ->max($max_avatarprofile_size)],
-            ['avatarprofile' => "El avatar del perfil excede el limite de peso ($max_avatarprofile_size kb)"]
-        );
-
         $avatar = null;
+
         if (isset($file) && $file->isValid()) {
+            Validator::validate(
+                array('avatarprofile' => $file),
+                ['avatarprofile' => File::types(['jpeg', 'png', 'webp'])
+                    ->max($max_avatarprofile_size)],
+                ['avatarprofile' => "El avatar del perfil excede el limite de peso ($max_avatarprofile_size kb)"]
+            );
+
             $path = $file->store('avatars', 'public');
             if ($path != false) {
                 $avatar = Avatar::create([
@@ -67,9 +69,9 @@ class CreateNewUser implements CreatesNewUsers
 
         $appUser = AppUser::create([
             'name' => $input['name'],
-            'lastname' => isset($input['lastname']) ? $input['lastname'] : '',
+            'lastname' => $input['lastname'] ? $input['lastname'] : '',
             'email' => $input['email'],
-            'userpassword' => $input['userpassword'],
+            'userpassword' =>  Hash::make($input['userpassword']),
             'avatar_id' => $avatar ? $avatar->id : null
         ]);
 

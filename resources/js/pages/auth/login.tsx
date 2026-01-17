@@ -30,7 +30,7 @@ export default function login({
     return (
 
         <div className="bg-brand-background w-screen min-h-screen flex flex-col justify-center">
-            <div className="bg-brand-white w-1/4 p-12 mx-auto rounded-2xl text-center">
+            <div className="bg-brand-white w-1/4 min-w-md p-12 mx-auto rounded-2xl text-center">
                 <h3 className="text-2xl font-bold mb-4">Autenticación</h3>
                 <hr className="mb-14 border-gray-400"></hr>
                 <Form
@@ -46,9 +46,12 @@ export default function login({
                                 ShowErrors(errors)
                             }
                             <div className="text-left">
-                                <BrandInputCheckbox label="Recuerdame"></BrandInputCheckbox>
+                                <div className="inline-block">
+                                    <BrandInputCheckbox label="Recuerdame"></BrandInputCheckbox>
+                                </div>
                             </div>
                             <div className="text-end">
+                                {processing.valueOf()}
                                 <BrandButtonPrimary type="submit">Entrar</BrandButtonPrimary>
                             </div>
                         </>
