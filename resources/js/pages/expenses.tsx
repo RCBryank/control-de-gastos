@@ -8,6 +8,7 @@ import BrandNumberRangeForm from "@/components/ui/brand-number-range-form";
 import BrandSelectForm from "@/components/ui/brand-select-form";
 import WebAppLayout from "@/layouts/webapp-layout";
 import { SelectAppUserAccountItem, SelectCategoryItem, TableRowExpenseItem } from "@/types";
+import { DatetoYMDFormat } from "@/utils/format";
 import { useEffect, useState } from "react";
 
 interface FiltersFields {
@@ -28,42 +29,60 @@ export default function Expenses() {
 
     const [filters, setfilters] = useState<FiltersFields>({
         concept: '',
-        categoryexpense_id: '',
-        appuseraccount_id: '',
-        min: '',
-        max: '',
-        date_begin: '',
-        date_end: ''
+        categoryexpense_id: '0',
+        appuseraccount_id: '0',
+        min: '0',
+        max: '0',
+        date_begin: DatetoYMDFormat(new Date()),
+        date_end: DatetoYMDFormat(new Date())
     });
 
     useEffect(() => {
         SearchFilterResults();
 
         fetch('category_expense/all').then((response) => response.json()).then((response) => {
-            if (response.length > 0)
-                setlistcategoryexpense(response);
+            let options = [{ "id": 0, "name": "Cualquiera" }];
+
+            if (response.length > 0) {
+                options.push(...response);
+            }
+            setlistcategoryexpense(options);
         });
 
         fetch('selectaccounts').then((response) => response.json()).then((response) => {
-            if (response.length > 0)
-                setlistappuseraccounts(response);
+            let options = [{ "id": 0, "name": "Todas" }];
+
+            if (response.length > 0) {
+                options.push(...response);
+            }
+            setlistappuseraccounts(options);
         });
     }, []);
 
     function SearchFilterResults() {
         const params = new URLSearchParams({
             concept: filters.concept,
-            categoryexpense_id: filters.appuseraccount_id,
+            categoryexpense_id: filters.categoryexpense_id,
             appuseraccount_id: filters.appuseraccount_id,
             min: filters.min,
             max: filters.max,
-            begindate: filters.date_begin,
-            enddate: filters.date_end
+            date_begin: filters.date_begin,
+            date_end: filters.date_end
         });
 
         fetch("gastos/find?" + params.toString()).then((response) => response.json()).then((response) => {
             settableresults(response);
         });
+    }
+
+    const RenderTableResults = () => {
+        if (tableresults.length > 0) {
+            return tableresults.map((result) => {
+                return <ExpenseItemTable key={result.id} props={result}></ExpenseItemTable>
+            });
+        }
+
+        return <tr><td className="p-3" colSpan={7}><p>Sin Resultados</p></td></tr>
     }
 
     return (
@@ -79,24 +98,24 @@ export default function Expenses() {
                                 <BrandInputForm onChange={(e) => setfilters({ ...filters, concept: e.currentTarget.value })}>Concepto</BrandInputForm>
                             </div>
                             <div className="flex-1/6 grow-0">
-                                <BrandSelectForm label="Categoria" onChange={(e) => { setfilters({ ...filters, categoryexpense_id: e.currentTarget.value }) }}>
+                                <BrandSelectForm label="Categoria" defaultValue={0} onChange={(e) => { setfilters({ ...filters, categoryexpense_id: e.currentTarget.value }) }}>
                                     {listcategoryexpense.map(function (item, index) {
                                         return <option key={item.id} value={item.id}>{item.name}</option>
                                     })}
                                 </BrandSelectForm>
                             </div>
                             <div className="flex-1/6 grow-0">
-                                <BrandSelectForm label="Cuenta" onChange={(e) => { setfilters({ ...filters, appuseraccount_id: e.currentTarget.value }) }}>
+                                <BrandSelectForm label="Cuenta" defaultValue={0} onChange={(e) => { setfilters({ ...filters, appuseraccount_id: e.currentTarget.value }) }}>
                                     {listappuseraccounts.map(function (item, index) {
                                         return <option key={item.id} value={item.id}>{item.name}</option>
                                     })}
                                 </BrandSelectForm>
                             </div>
                             <div className="flex-1/6 grow-0">
-                                <BrandNumberRangeForm min={0} max={0}>Rango de Monto</BrandNumberRangeForm>
+                                <BrandNumberRangeForm min={0} max={0} onChangeEvent={(smin: string, smax: string) => { setfilters({ ...filters, min: smin, max: smax }) }}>Rango de Monto</BrandNumberRangeForm>
                             </div>
                             <div>
-                                <BrandDateRangeForm>Entre fechas</BrandDateRangeForm>
+                                <BrandDateRangeForm defaultmin={new Date()} defaultmax={new Date()} onChangeEvent={(datemin: Date, datemax: Date) => { setfilters({ ...filters, date_begin: DatetoYMDFormat(datemin), date_end: DatetoYMDFormat(datemax) }) }}>Entre fechas</BrandDateRangeForm>
                             </div>
                         </div>
                         <div className="text-end">
@@ -117,16 +136,12 @@ export default function Expenses() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    tableresults.map(function (result, index) {
-                                        return <ExpenseItemTable key={result.id} props={result}></ExpenseItemTable>
-                                    })
-                                }
+                                {RenderTableResults()}
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </WebAppLayout>
+            </WebAppLayout >
         </>
     )
 }

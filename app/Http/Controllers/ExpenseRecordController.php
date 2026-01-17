@@ -26,15 +26,21 @@ class ExpenseRecordController extends Controller
             $query->where("category_expense.id", $request->input("categoryexpense_id"));
 
         if ($request->input("appuseraccount_id") != 0)
-            $query->where("appuseraccount.id", $request->input("appuseraccount_id"));
+            $query->where("appuser_account.id", $request->input("appuseraccount_id"));
 
         if ($request->input("min") != 0)
-            $query->where("amount", ">=" , $request->input("min"));
+            $query->where("amount", ">=", $request->input("min"));
 
         if ($request->input("max") != 0)
-            $query->where("appuseraccount.id", "<=" , $request->input("max"));
+            $query->where("amount", "<=", $request->input("max"));
 
-        //->orderBy("expenserecord_date", "DESC");
+        if ($request->input("date_begin") != "")
+            $query->where("expenserecord_date", ">=", $request->input("date_begin") . " 00:00:00");
+
+        if ($request->input("date_end") != "")
+            $query->where("expenserecord_date", "<=", $request->input("date_end") . " 23:59:59");
+
+        $query->orderBy("expenserecord_date", "DESC");
         $results = $query->get()->toArray();
 
         return response()->json($results);
@@ -55,7 +61,7 @@ class ExpenseRecordController extends Controller
             "excludefrom_savingsgoal"  => $request->input('checkbox-excludefrom_savingsgoal'),
             "notes"  => $request->input('input-notes'),
             "categoryexpense_id"  => $request->input('select-categoryexpense_id'),
-            "appuseraccount_id" => $user->id,
+            "appuseraccount_id" => $request->input('select-appuseraccount_id'),
             "periodicexpense_id" => $periodicexpense_id == '' ? null : $periodicexpense_id,
         ]);
 

@@ -66,3 +66,13 @@ export interface TableRowExpenseItem {
     notes: string,
     categoryname: string
 }
+
+export interface NumberRange {
+    min: number,
+    max: number
+}
+
+export interface DateRange {
+    min: Date,
+    max: Date
+}

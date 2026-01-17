@@ -5,29 +5,41 @@ import BrandButtonPrimary from "@/components/ui/brand-button-primary";
 import BrandInputForm from "@/components/ui/brand-input-form";
 import BrandSelectForm from "@/components/ui/brand-select-form";
 import { useEffect, useState } from "react";
-import { SelectCategoryItem } from "@/types";
+import { SelectAppUserAccountItem, SelectCategoryItem } from "@/types";
 import BrandInputCheckboxForm from "@/components/ui/brand-input-checkbox-form";
 import { DatetoYMDFormat } from "@/utils/format";
 import BrandTextAreaForm from "@/components/ui/brand-textarea-form";
 
 export default function NewExpense() {
 
+    //-TODO. Cambiar el input date por un input datetime
+
     const { data, setData, post, processing, errors } = useForm({
         'input-concept': '',
-        'input-date': '2001-01-01',
+        'input-date': DatetoYMDFormat(new Date()),
         'input-amount': 0,
         'checkbox-excludefrom_savingsgoal': false,
         'input-notes': '',
         'select-categoryexpense_id': 1,
-        'select-periodicexpense_id': ''
+        'select-periodicexpense_id': '',
+        'select-appuseraccount_id': ''
     })
 
     const [listcategoryexpense, setlistcategoryexpense] = useState<SelectCategoryItem[]>([]);
+    const [listappuseraccounts, setlistappuseraccounts] = useState<SelectAppUserAccountItem[]>([]);
 
     useEffect(() => {
         fetch('category_expense/all').then((response) => response.json()).then((response) => {
             if (response.length > 0)
                 setlistcategoryexpense(response);
+                setData("select-categoryexpense_id", response[0].id);
+        });
+
+        fetch('selectaccounts').then((response) => response.json()).then((response) => {
+            if (response.length > 0) {
+                setlistappuseraccounts(response);
+                setData("select-appuseraccount_id", response[0].id);
+            }
         });
     }, []);
 
@@ -67,11 +79,12 @@ export default function NewExpense() {
                                 <div>
                                     <BrandInputForm name="input-amount" onChange={(e) => setData("input-amount", (parseFloat(e.currentTarget.value)) as number)} type="number">Monto</BrandInputForm>
                                 </div>
-                                <div className="ml-auto">
-                                    <BrandInputCheckboxForm name="checkbox-excludefrom_savingsgoal" customOnChangeEvent={(value: boolean) => setData("checkbox-excludefrom_savingsgoal", value)}>Excluir de Meta de Ahorro</BrandInputCheckboxForm>
-                                </div>
-                                <div className="ml-auto">
-                                    <BrandInputForm name="date-date" onChange={(e) => { setData("input-date", e.currentTarget.value) }} type="Date" defaultValue={DatetoYMDFormat(new Date())}>Fecha</BrandInputForm>
+                                <div>
+                                    <BrandSelectForm label="Cuenta" name="select-appuseraccount_id" onChange={(e) => { setData("select-appuseraccount_id", e.currentTarget.value) }} >
+                                        {listappuseraccounts.map(function (item, index) {
+                                            return <option key={item.id} value={item.id}>{item.name}</option>
+                                        })}
+                                    </BrandSelectForm>
                                 </div>
                             </div>
                             <div className="flex gap-6 mb-4">
@@ -81,6 +94,12 @@ export default function NewExpense() {
                                             return <option key={item.id} value={item.id}>{item.name}</option>
                                         })}
                                     </BrandSelectForm>
+                                </div>
+                                <div className="flex-auto ml-auto grow-0">
+                                    <BrandInputCheckboxForm name="checkbox-excludefrom_savingsgoal" customOnChangeEvent={(value: boolean) => setData("checkbox-excludefrom_savingsgoal", value)}>Excluir de Meta de Ahorro</BrandInputCheckboxForm>
+                                </div>
+                                <div className="flex-auto grow-0">
+                                    <BrandInputForm name="date-date" onChange={(e) => { setData("input-date", e.currentTarget.value) }} type="Date" defaultValue={DatetoYMDFormat(new Date())}>Fecha</BrandInputForm>
                                 </div>
                             </div>
                             <div className="mb-4">
