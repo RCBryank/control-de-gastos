@@ -1,59 +1,44 @@
-name: Deploy to EC2
+name: DeploymentoEc2Instance
 
 on:
-  push:
-    branches: [ main ]
+  workflow_run:
+    workflows: ["Laravel"]
+    types:
+      - completed
 
 jobs:
-  deploy:
+  cd:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
     
-    - name: Deploy to EC2
-      env:
-        APP_PATH: ${{secrets.EC2_APPPATH}}
-        PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
-        HOST: ${{ secrets.EC2_HOST }}
-        USER: ${{ secrets.EC2_USER }}
-      run: |
-        echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
-        ssh -o StrictHostKeyChecking=no -i github-ec2.pem ${USER}@${HOST} '
-        echo "Current directory: $(pwd)"
-        echo "Listing home directory:"
-        ls -la ~
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        echo "Installing Node.js..."
-        if ! command -v nvm &> /dev/null; then
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-        fi
-        nvm install node
-
-        echo "Installing PM2..."
-        if ! command -v pm2 &> /dev/null; then
-        npm install -g pm2
-        fi
-
-        REPO_URL="https://github.com/RCBryank/control-de-gastos.git"
-        BRANCH="main"
-        REPO_DIR="${{APP_PATH}}"
-
-        if [ -d "$REPO_DIR/.git" ]; then
-          cd "$REPO_DIR"
-          git pull origin "$BRANCH"
-        else
-          git clone "$REPO_URL" "$REPO_DIR"
-          cd "$REPO_DIR"
-        fi
-
-        cd "${{APP_PATH}}"
-        npm install
-
-        git pull origin main
-        npm install
-
-        echo "Starting/restarting application..."
-        pm2 restart server.js || pm2 start server.js
-        '
+      - name: Run remote SSH command
+        env:
+          SSH_HOST: ${{secrets.EC2_HOST}}
+          SSH_USER: ${{secrets.EC2_USER}}
+          SSH_KEY: ${{secrets.EC2_PRIVATE_KEY}}
+          APPPATH: ${{secrets.EC2_APPPATH}}
+        run: |
+          echo "$SSH_KEY" >> key.pem
+          chmod 600 key.pem
+          ssh -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST << 'EOF'
+          set -e
+          echo "▶Entrando al directorio de la aplicación"
+          cd /var/www/control-gastos/control-de-gastos
+          echo "▶Pull Request de origin main"
+          git pull origin main
+          echo "▶Instalando dependencias con composer"
+          composer install
+          echo "▶Instalando dependencias con npm"
+          npm install
+          echo "▶Deteniendo proceso mysqld"
+          sudo systemctl stop mysqld
+          echo "▶Construyendo build de la aplicacion"
+          npm run build
+          echo "▶Reiniciando proceso mysqld"
+          sudo systemctl start mysqld
+          EOF
