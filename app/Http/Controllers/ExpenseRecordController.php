@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function Symfony\Component\Clock\now;
+
 class ExpenseRecordController extends Controller
 {
     public function getfiltered(Request $request)
@@ -52,17 +54,15 @@ class ExpenseRecordController extends Controller
         //-- Validaciones
         $user = Auth::user();
 
-        $periodicexpense_id = $request->input('select-periodicexpense_id');
-
         $expenserecord = Expense_Record::create([
             "concept" => $request->input('input-concept'),
-            "expenserecord_date" => $request->input('input-date'),
+            "expenserecord_date" => $request->input('input-date') . ":" . date('s'),
             "amount"  => $request->input('input-amount'),
             "excludefrom_savingsgoal"  => $request->input('checkbox-excludefrom_savingsgoal'),
             "notes"  => $request->input('input-notes'),
             "categoryexpense_id"  => $request->input('select-categoryexpense_id'),
             "appuseraccount_id" => $request->input('select-appuseraccount_id'),
-            "periodicexpense_id" => $periodicexpense_id == '' ? null : $periodicexpense_id,
+            "periodicexpense_id" => $request->input('select-periodicexpense_id') == '' ? null : $request->input('select-periodicexpense_id')
         ]);
 
         return redirect()->to('dashboard')->with("success");

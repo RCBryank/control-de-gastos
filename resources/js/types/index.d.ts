@@ -57,6 +57,16 @@ export interface SelectAppUserAccountItem {
     name: string
 }
 
+export interface SelectPeriodicExpenseItem {
+    id: number,
+    name: string,
+    amount: number,
+    appuseraccount_id: number,
+    categoryexpense_id: number,
+    excludefrom_savingsgoal: boolean,
+    notes: string
+}
+
 export interface TableRowExpenseItem {
     id: number,
     concept: string,

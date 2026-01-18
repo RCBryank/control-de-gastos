@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppuserAccountController;
 use App\Http\Controllers\CategoryExpenseController;
 use App\Http\Controllers\ExpenseRecordController;
+use App\Http\Controllers\PeriodicExpenseController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -48,6 +49,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('nuevogastoperiodico', function(){
         return Inertia::render('new-periodic-expense');
     });
+    Route::post('nuevogastoperiodico', [PeriodicExpenseController::class, 'store']);
+
+    Route::get('selectperiodicexpenses', [PeriodicExpenseController::class, 'selectgetfromuser']);
+
 
     Route::get('category_expense/all', [CategoryExpenseController::class, 'all']);
 });
