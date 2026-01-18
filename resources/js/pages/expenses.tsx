@@ -2,6 +2,7 @@ import ExpenseItemTable from "@/components/expense-item-table";
 import BrandAnchorButtonNewExpense from "@/components/ui/brand-anchor-button-newexpense";
 import BrandAnchorPrimaryButton from "@/components/ui/brand-anchor-primarybutton";
 import BrandButtonPrimary from "@/components/ui/brand-button-primary";
+import BrandButtonSecondary from "@/components/ui/brand-button-secondary";
 import BrandDateRangeForm from "@/components/ui/brand-date-range-form";
 import BrandInputForm from "@/components/ui/brand-input-form";
 import BrandNumberRangeForm from "@/components/ui/brand-number-range-form";
@@ -26,6 +27,8 @@ export default function Expenses() {
     const [tableresults, settableresults] = useState<TableRowExpenseItem[]>([]);
     const [listcategoryexpense, setlistcategoryexpense] = useState<SelectCategoryItem[]>([]);
     const [listappuseraccounts, setlistappuseraccounts] = useState<SelectAppUserAccountItem[]>([]);
+    const [selectionmode, setselectionmode] = useState(false);
+    const [SelectedRows, setSelectedRows] = useState<number[]>([]);
 
     const [filters, setfilters] = useState<FiltersFields>({
         concept: '',
@@ -59,6 +62,10 @@ export default function Expenses() {
         });
     }, []);
 
+    useEffect(() => {
+        setselectionmode(SelectedRows.length > 0);
+    }, [SelectedRows]);
+
     function SearchFilterResults() {
         const params = new URLSearchParams({
             concept: filters.concept,
@@ -75,10 +82,21 @@ export default function Expenses() {
         });
     }
 
+    function ShowSelectionMode(index: number, selected: boolean) {
+        if (selected) {
+            const _newlist = [...SelectedRows];
+            _newlist.push(index);
+            console.log(_newlist.length);
+            setSelectedRows(_newlist);
+        } else {
+            setSelectedRows(SelectedRows.filter(x => x != index));
+        }
+    }
+
     const RenderTableResults = () => {
         if (tableresults.length > 0) {
             return tableresults.map((result) => {
-                return <ExpenseItemTable key={result.id} props={result}></ExpenseItemTable>
+                return <ExpenseItemTable key={result.id} index={result.id} props={result} onDoubleClickevent={ShowSelectionMode} selectionmode={selectionmode}></ExpenseItemTable>
             });
         }
 
@@ -89,8 +107,13 @@ export default function Expenses() {
         <>
             <WebAppLayout>
                 <div className="container mx-auto">
-                    <div className="mb-6">
-                        <BrandAnchorButtonNewExpense href="nuevogasto">Nuevo Gasto</BrandAnchorButtonNewExpense>
+                    <div className="mb-6 flex gap-6">
+                        <div>
+                            <BrandAnchorButtonNewExpense href="nuevogasto">Nuevo Gasto</BrandAnchorButtonNewExpense>
+                        </div>
+                        <div>
+                            <BrandAnchorButtonNewExpense href="nuevogastoperiodico">Nuevo Gasto Periodico</BrandAnchorButtonNewExpense>
+                        </div>
                     </div>
                     <div className="p-4 mb-6 bg-brand-white rounded-md">
                         <div className="flex gap-6 mb-4">
@@ -120,6 +143,13 @@ export default function Expenses() {
                         </div>
                         <div className="text-end">
                             <BrandButtonPrimary onClick={SearchFilterResults}>Buscar</BrandButtonPrimary>
+                        </div>
+                    </div>
+                    <div className="flex gap-6">
+                        <p className="my-6 text-brand-white">Haz doble click sobre un registro para ver mas acciones</p>
+                        <div className="ml-auto" hidden={!selectionmode}>
+                            <BrandButtonPrimary disabled={SelectedRows.length > 1}>Editar</BrandButtonPrimary> &nbsp;
+                            <BrandButtonSecondary>Eliminar</BrandButtonSecondary>
                         </div>
                     </div>
                     <div>

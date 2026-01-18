@@ -7,7 +7,7 @@ import BrandSelectForm from "@/components/ui/brand-select-form";
 import { useEffect, useState } from "react";
 import { SelectAppUserAccountItem, SelectCategoryItem } from "@/types";
 import BrandInputCheckboxForm from "@/components/ui/brand-input-checkbox-form";
-import { DatetoYMDFormat } from "@/utils/format";
+import { DatetoYMDFormat, DatetoYMDTimeFormat } from "@/utils/format";
 import BrandTextAreaForm from "@/components/ui/brand-textarea-form";
 
 export default function NewExpense() {
@@ -16,7 +16,7 @@ export default function NewExpense() {
 
     const { data, setData, post, processing, errors } = useForm({
         'input-concept': '',
-        'input-date': DatetoYMDFormat(new Date()),
+        'input-date': DatetoYMDTimeFormat(new Date()),
         'input-amount': 0,
         'checkbox-excludefrom_savingsgoal': false,
         'input-notes': '',
@@ -99,7 +99,7 @@ export default function NewExpense() {
                                     <BrandInputCheckboxForm name="checkbox-excludefrom_savingsgoal" customOnChangeEvent={(value: boolean) => setData("checkbox-excludefrom_savingsgoal", value)}>Excluir de Meta de Ahorro</BrandInputCheckboxForm>
                                 </div>
                                 <div className="flex-auto grow-0">
-                                    <BrandInputForm name="date-date" onChange={(e) => { setData("input-date", e.currentTarget.value) }} type="Date" defaultValue={DatetoYMDFormat(new Date())}>Fecha</BrandInputForm>
+                                    <BrandInputForm name="date-date" onChange={(e) => { setData("input-date", e.currentTarget.value) }} type="datetime-local" defaultValue={DatetoYMDTimeFormat(new Date())}>Fecha</BrandInputForm>
                                 </div>
                             </div>
                             <div className="mb-4">

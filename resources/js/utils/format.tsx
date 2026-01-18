@@ -10,6 +10,10 @@ export function DatetoYMDFormat(date: Date) {
     return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 }
 
+export function DatetoYMDTimeFormat(date:Date){
+    return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + " " + date.getHours() + ":" + date.getMinutes();
+}
+
 export function StringFullDatetoNormalFormat(date: string) {
     let _timeexploded = date.split(" ");
     const _sdate = _timeexploded[0];

@@ -44,6 +44,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::post('nuevogasto', [ExpenseRecordController::class, 'store']);
 
+    //== Periodic Expense Record ===//
+    Route::get('nuevogastoperiodico', function(){
+        return Inertia::render('new-periodic-expense');
+    });
+
     Route::get('category_expense/all', [CategoryExpenseController::class, 'all']);
 });
 
