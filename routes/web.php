@@ -7,6 +7,7 @@ use App\Http\Controllers\ExpenseRecordController;
 use App\Http\Controllers\IncomeRecordController;
 use App\Http\Controllers\PeriodicExpenseController;
 use App\Http\Controllers\PeriodicIncomeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -70,6 +71,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('new-income');
     });
     Route::post('nuevoingreso', [IncomeRecordController::class, 'store']);
+
+    Route::get('editaringreso/{id}', [IncomeRecordController::class, 'edit']);
+    Route::put('editaringreso/{id}', [IncomeRecordController::class, 'update']);
+
+    Route::delete('deleteincomerecord', [IncomeRecordController::class, 'delete']);
 
     //== Periodic Income Record ==//
     Route::get('nuevoingresoperiodico', function () {

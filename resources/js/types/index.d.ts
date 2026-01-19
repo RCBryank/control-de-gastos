@@ -43,6 +43,7 @@ export interface User {
 }
 
 export interface ListAccountItem {
+    id: number,
     name: string,
     account_balance: number
 }
@@ -89,10 +90,22 @@ export interface DateRange {
 
 export interface FiltersFields {
     concept: string,
-    categoryexpense_id: string,
+    categoryrecord_id: string,
     appuseraccount_id: string,
     min: string,
     max: string,
     date_begin: string,
     date_end: string
+}
+
+export interface FormIncomeRecord {
+    '_method': string,
+    'input-concept': string,
+    'input-date': string,
+    'input-amount': number,
+    'checkbox-excludefrom_savingsgoal': boolean,
+    'input-notes': string,
+    'select-categoryincome_id': string,
+    'select-periodicincome_id': string,
+    'select-appuseraccount_id': string
 }

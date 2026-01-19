@@ -7,6 +7,7 @@ import BrandInputForm from "@/components/ui/brand-input-form";
 import BrandNumberRangeForm from "@/components/ui/brand-number-range-form";
 import BrandSelectForm from "@/components/ui/brand-select-form";
 import WebAppLayout from "@/layouts/webapp-layout";
+import SectionDeleteTableRecords from "@/sections/section-deletetablerecords";
 import { FiltersFields, SelectAppUserAccountItem, SelectCategoryItem, TableRowItem } from "@/types";
 import { DatetoYMDFormat } from "@/utils/format";
 import { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ export default function Incomes() {
 
     const [filters, setfilters] = useState<FiltersFields>({
         concept: '',
-        categoryexpense_id: '0',
+        categoryrecord_id: '0',
         appuseraccount_id: '0',
         min: '0',
         max: '0',
@@ -32,7 +33,7 @@ export default function Incomes() {
     useEffect(() => {
         SearchFilterResults();
 
-        fetch('category_expense/all').then((response) => response.json()).then((response) => {
+        fetch('category_income/all').then((response) => response.json()).then((response) => {
             let options = [{ "id": 0, "name": "Cualquiera" }];
 
             if (response.length > 0) {
@@ -50,7 +51,7 @@ export default function Incomes() {
             setlistappuseraccounts(options);
         });
     }, []);
-    
+
     useEffect(() => {
         setselectionmode(SelectedRows.length > 0);
     }, [SelectedRows]);
@@ -58,7 +59,7 @@ export default function Incomes() {
     function SearchFilterResults() {
         const params = new URLSearchParams({
             concept: filters.concept,
-            categoryexpense_id: filters.categoryexpense_id,
+            categoryrecord_id: filters.categoryrecord_id,
             appuseraccount_id: filters.appuseraccount_id,
             min: filters.min,
             max: filters.max,
@@ -66,7 +67,7 @@ export default function Incomes() {
             date_end: filters.date_end
         });
 
-        fetch("gastos/find?" + params.toString()).then((response) => response.json()).then((response) => {
+        fetch("ingresos/find?" + params.toString()).then((response) => response.json()).then((response) => {
             settableresults(response);
         });
     }
@@ -109,7 +110,7 @@ export default function Incomes() {
                                 <BrandInputForm onChange={(e) => setfilters({ ...filters, concept: e.currentTarget.value })}>Concepto</BrandInputForm>
                             </div>
                             <div className="flex-1/6 grow-0">
-                                <BrandSelectForm label="Categoria" defaultValue={0} onChange={(e) => { setfilters({ ...filters, categoryexpense_id: e.currentTarget.value }) }}>
+                                <BrandSelectForm label="Categoria" defaultValue={0} onChange={(e) => { setfilters({ ...filters, categoryrecord_id: e.currentTarget.value }) }}>
                                     {listcategoryincome.map(function (item, index) {
                                         return <option key={item.id} value={item.id}>{item.name}</option>
                                     })}
@@ -137,7 +138,9 @@ export default function Incomes() {
                         <p className="my-6 text-brand-white">Haz doble click sobre un registro para ver mas acciones</p>
                         <div className="ml-auto" hidden={!selectionmode}>
                             <BrandButtonPrimary disabled={SelectedRows.length > 1}>Editar</BrandButtonPrimary> &nbsp;
-                            <BrandButtonSecondary>Eliminar</BrandButtonSecondary>
+                            <div className="inline-block">
+                                <SectionDeleteTableRecords hrefdelete="deleteincomerecord" selectedrows={SelectedRows} onDeleteSuccess={() => { SearchFilterResults(); setSelectedRows([]); }}></SectionDeleteTableRecords>
+                            </div>
                         </div>
                     </div>
                     <div>

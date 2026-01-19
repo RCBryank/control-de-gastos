@@ -35,7 +35,7 @@ class AppUser extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'user_password',
+        'userpassword',
         'two_factor_secret',
         'two_factor_recovery_codes',
         'remember_token',

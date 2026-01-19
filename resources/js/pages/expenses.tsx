@@ -23,7 +23,7 @@ export default function Expenses() {
 
     const [filters, setfilters] = useState<FiltersFields>({
         concept: '',
-        categoryexpense_id: '0',
+        categoryrecord_id: '0',
         appuseraccount_id: '0',
         min: '0',
         max: '0',
@@ -60,7 +60,7 @@ export default function Expenses() {
     function SearchFilterResults() {
         const params = new URLSearchParams({
             concept: filters.concept,
-            categoryexpense_id: filters.categoryexpense_id,
+            categoryrecord_id: filters.categoryrecord_id,
             appuseraccount_id: filters.appuseraccount_id,
             min: filters.min,
             max: filters.max,
@@ -112,7 +112,7 @@ export default function Expenses() {
                                 <BrandInputForm onChange={(e) => setfilters({ ...filters, concept: e.currentTarget.value })}>Concepto</BrandInputForm>
                             </div>
                             <div className="flex-1/6 grow-0">
-                                <BrandSelectForm label="Categoria" defaultValue={0} onChange={(e) => { setfilters({ ...filters, categoryexpense_id: e.currentTarget.value }) }}>
+                                <BrandSelectForm label="Categoria" defaultValue={0} onChange={(e) => { setfilters({ ...filters, categoryrecord_id: e.currentTarget.value }) }}>
                                     {listcategoryexpense.map(function (item, index) {
                                         return <option key={item.id} value={item.id}>{item.name}</option>
                                     })}

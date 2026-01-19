@@ -68,7 +68,7 @@ export default function NewPeriodicExpense() {
                         <h4 className="text-lg font-bold uppercase">Nuevo Gasto Periodico</h4>
                         <hr className="my-3"></hr>
                         <h5 className="text-lg mb-2">Detalles</h5>
-                        <form onSubmit={onSubmitHandler}>
+                        <form onSubmit={onSubmitHandler} autoComplete="false">
                             <div className="flex gap-6 mb-4">
                                 <div className="flex-1/3 grow-0">
                                     <BrandInputForm name="input-concept" onChange={(e) => setData("input-concept", e.currentTarget.value)}>Concepto</BrandInputForm>

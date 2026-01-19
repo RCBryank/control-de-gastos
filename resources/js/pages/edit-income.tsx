@@ -11,12 +11,12 @@ import { DatetoYMDFormat, DatetoYMDTimeFormat } from "@/utils/format";
 import BrandTextAreaForm from "@/components/ui/brand-textarea-form";
 import SectionNewIncomeDetails from "@/sections/section-newincome-details";
 
-export default function NewIncome() {
+export default function NewIncome({ preloadeddata }: { preloadeddata: any }) {
 
     //-TODO. Cambiar el input date por un input datetime
 
     const { data, setData, post, processing, errors } = useForm<FormIncomeRecord>({
-        '_method': 'POST',
+        '_method': 'PUT',
         'input-concept': '',
         'input-date': DatetoYMDTimeFormat(new Date()),
         'input-amount': 0,
@@ -32,20 +32,20 @@ export default function NewIncome() {
     const [listperiodicincomes, setlistperiodicincomes] = useState<SelectPeriodicExpenseItem[]>([]);
 
     useEffect(() => {
-        fetch('category_income/all').then((response) => response.json()).then((response) => {
+        fetch('/category_income/all').then((response) => response.json()).then((response) => {
             if (response.length > 0)
                 setlistcategoryincome(response);
-            setData("select-categoryincome_id", response[0].id);
+            setData("select-categoryincome_id", preloadeddata.categoryincome_id);
         });
 
-        fetch('selectaccounts').then((response) => response.json()).then((response) => {
+        fetch('/selectaccounts').then((response) => response.json()).then((response) => {
             if (response.length > 0) {
                 setlistappuseraccounts(response);
-                setData("select-appuseraccount_id", response[0].id);
+                setData("select-appuseraccount_id", preloadeddata.appuseraccount_id);
             }
         });
 
-        fetch('selectperiodicincomes').then((response) => response.json()).then((response) => {
+        fetch('/selectperiodicincomes').then((response) => response.json()).then((response) => {
             if (response.length > 0) {
                 let _options = [{
                     "id": 0, "name": "-- No usar Plantilla --", amount: 0, appuseraccount_id: 0, categoryexpense_id: 0, excludefrom_savingsgoal: false, notes: "",
@@ -53,7 +53,7 @@ export default function NewIncome() {
                 _options.push(...response);
 
                 setlistperiodicincomes(_options);
-                setData("select-periodicincome_id", _options[0].id.toString());
+                setData("select-periodicincome_id", preloadeddata.periodicincome_id);
             }
         });
     }, []);
@@ -79,7 +79,7 @@ export default function NewIncome() {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        post('/nuevoingreso', {
+        post('/editaringreso/' + preloadeddata.id, {
             onSuccess: (result) => {
                 console.log(result);
             },
@@ -97,7 +97,7 @@ export default function NewIncome() {
             <WebAppLayout>
                 <div className="container mx-auto">
                     <div className="bg-brand-white rounded-md p-12">
-                        <h4 className="text-lg font-bold uppercase">Nuevo Ingreso</h4>
+                        <h4 className="text-lg font-bold uppercase">Actualizar Ingreso</h4>
                         <hr className="my-3"></hr>
                         <form onSubmit={handleSubmit} autoComplete="false">
                             <SectionNewIncomeDetails listcategoryincome={listcategoryincome} listperiodicincomes={listperiodicincomes} listappuseraccounts={listappuseraccounts} data={data} setData={setData} FillFieldwithPeriodicExpenseTemplate={FillFieldwithPeriodicExpenseTemplate}></SectionNewIncomeDetails>

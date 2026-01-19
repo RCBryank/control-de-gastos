@@ -13,7 +13,7 @@ class AppuserAccountController extends Controller
     {
         $user = Auth::user();
 
-        $accounts = Appuser_Account::select("name", "account_balance")
+        $accounts = Appuser_Account::select("id", "name", "account_balance")
             ->where("appuser_id", $user->id)
             ->get()->toArray();
 

@@ -42,7 +42,7 @@ export default function Accounts() {
                     <div className="mb-12 flex flex-col gap-12">
                         {
                             listaccounts.map((item, index) => {
-                                return <AccountItemList props={item} color={listColorsAvailable[index]}></AccountItemList>
+                                return <AccountItemList key={item.id} props={item} color={listColorsAvailable[index]}></AccountItemList>
                             })
                         }
                     </div>
