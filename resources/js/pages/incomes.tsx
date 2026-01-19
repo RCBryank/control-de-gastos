@@ -1,6 +1,4 @@
 import ItemTable from "@/components/item-table";
-import ExpenseItemTable from "@/components/item-table";
-import BrandAnchorButtonNewExpense from "@/components/ui/brand-anchor-button-newexpense";
 import BrandAnchorPrimaryButton from "@/components/ui/brand-anchor-primarybutton";
 import BrandButtonPrimary from "@/components/ui/brand-button-primary";
 import BrandButtonSecondary from "@/components/ui/brand-button-secondary";
@@ -13,10 +11,10 @@ import { FiltersFields, SelectAppUserAccountItem, SelectCategoryItem, TableRowIt
 import { DatetoYMDFormat } from "@/utils/format";
 import { useEffect, useState } from "react";
 
-export default function Expenses() {
+export default function Incomes() {
 
     const [tableresults, settableresults] = useState<TableRowItem[]>([]);
-    const [listcategoryexpense, setlistcategoryexpense] = useState<SelectCategoryItem[]>([]);
+    const [listcategoryincome, setlistcategoryincome] = useState<SelectCategoryItem[]>([]);
     const [listappuseraccounts, setlistappuseraccounts] = useState<SelectAppUserAccountItem[]>([]);
     const [selectionmode, setselectionmode] = useState(false);
     const [SelectedRows, setSelectedRows] = useState<number[]>([]);
@@ -40,7 +38,7 @@ export default function Expenses() {
             if (response.length > 0) {
                 options.push(...response);
             }
-            setlistcategoryexpense(options);
+            setlistcategoryincome(options);
         });
 
         fetch('selectaccounts').then((response) => response.json()).then((response) => {
@@ -52,7 +50,7 @@ export default function Expenses() {
             setlistappuseraccounts(options);
         });
     }, []);
-
+    
     useEffect(() => {
         setselectionmode(SelectedRows.length > 0);
     }, [SelectedRows]);
@@ -77,7 +75,6 @@ export default function Expenses() {
         if (selected) {
             const _newlist = [...SelectedRows];
             _newlist.push(index);
-            console.log(_newlist.length);
             setSelectedRows(_newlist);
         } else {
             setSelectedRows(SelectedRows.filter(x => x != index));
@@ -100,10 +97,10 @@ export default function Expenses() {
                 <div className="container mx-auto">
                     <div className="mb-6 flex gap-6">
                         <div>
-                            <BrandAnchorButtonNewExpense href="nuevogasto">Nuevo Gasto</BrandAnchorButtonNewExpense>
+                            <BrandAnchorPrimaryButton href="nuevoingreso">Nuevo Ingreso</BrandAnchorPrimaryButton>
                         </div>
                         <div>
-                            <BrandAnchorButtonNewExpense href="nuevogastoperiodico">Nuevo Gasto Periodico</BrandAnchorButtonNewExpense>
+                            <BrandAnchorPrimaryButton href="nuevoingresoperiodico">Nuevo Ingreso Periodico</BrandAnchorPrimaryButton>
                         </div>
                     </div>
                     <div className="p-4 mb-6 bg-brand-white rounded-md">
@@ -113,7 +110,7 @@ export default function Expenses() {
                             </div>
                             <div className="flex-1/6 grow-0">
                                 <BrandSelectForm label="Categoria" defaultValue={0} onChange={(e) => { setfilters({ ...filters, categoryexpense_id: e.currentTarget.value }) }}>
-                                    {listcategoryexpense.map(function (item, index) {
+                                    {listcategoryincome.map(function (item, index) {
                                         return <option key={item.id} value={item.id}>{item.name}</option>
                                     })}
                                 </BrandSelectForm>
@@ -162,7 +159,7 @@ export default function Expenses() {
                         </table>
                     </div>
                 </div>
-            </WebAppLayout >
+            </WebAppLayout>
         </>
     )
 }

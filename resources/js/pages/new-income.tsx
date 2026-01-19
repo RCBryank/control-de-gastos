@@ -20,20 +20,20 @@ export default function NewExpense() {
         'input-amount': 0,
         'checkbox-excludefrom_savingsgoal': false,
         'input-notes': '',
-        'select-categoryexpense_id': '',
-        'select-periodicexpense_id': '',
+        'select-categoryincome_id': '',
+        'select-periodicincome_id': '',
         'select-appuseraccount_id': ''
     })
 
-    const [listcategoryexpense, setlistcategoryexpense] = useState<SelectCategoryItem[]>([]);
+    const [listcategoryincome, setlistcategoryincome] = useState<SelectCategoryItem[]>([]);
     const [listappuseraccounts, setlistappuseraccounts] = useState<SelectAppUserAccountItem[]>([]);
-    const [listperiodicexpenses, setlistperiodicexpenses] = useState<SelectPeriodicExpenseItem[]>([]);
+    const [listperiodicincomes, setlistperiodicincomes] = useState<SelectPeriodicExpenseItem[]>([]);
 
     useEffect(() => {
-        fetch('category_expense/all').then((response) => response.json()).then((response) => {
+        fetch('category_income/all').then((response) => response.json()).then((response) => {
             if (response.length > 0)
-                setlistcategoryexpense(response);
-            setData("select-categoryexpense_id", response[0].id);
+                setlistcategoryincome(response);
+            setData("select-categoryincome_id", response[0].id);
         });
 
         fetch('selectaccounts').then((response) => response.json()).then((response) => {
@@ -43,15 +43,15 @@ export default function NewExpense() {
             }
         });
 
-        fetch('selectperiodicexpenses').then((response) => response.json()).then((response) => {
+        fetch('selectperiodicincomes').then((response) => response.json()).then((response) => {
             if (response.length > 0) {
                 let _options = [{
                     "id": 0, "name": "-- No usar Plantilla --", amount: 0, appuseraccount_id: 0, categoryexpense_id: 0, excludefrom_savingsgoal: false, notes: "",
                 }];
                 _options.push(...response);
 
-                setlistperiodicexpenses(_options);
-                setData("select-periodicexpense_id", _options[0].id.toString());
+                setlistperiodicincomes(_options);
+                setData("select-periodicincome_id", _options[0].id.toString());
             }
         });
     }, []);
@@ -62,22 +62,22 @@ export default function NewExpense() {
             setData("input-amount", 0);
             setData("input-notes", "");
             setData("select-appuseraccount_id", listappuseraccounts[0].id.toString());
-            setData("select-categoryexpense_id", listcategoryexpense[0].id.toString());
+            setData("select-categoryincome_id", listcategoryincome[0].id.toString());
             setData("checkbox-excludefrom_savingsgoal", false);
         } else {
-            setData("input-concept", listperiodicexpenses[index].name);
-            setData("input-amount", listperiodicexpenses[index].amount);
-            setData("input-notes", listperiodicexpenses[index].notes || "");
-            setData("select-appuseraccount_id", listperiodicexpenses[index].appuseraccount_id.toString());
-            setData("select-categoryexpense_id", listcategoryexpense[index].id.toString());
-            setData("checkbox-excludefrom_savingsgoal", listperiodicexpenses[index].excludefrom_savingsgoal);
+            setData("input-concept", listperiodicincomes[index].name);
+            setData("input-amount", listperiodicincomes[index].amount);
+            setData("input-notes", listperiodicincomes[index].notes || "");
+            setData("select-appuseraccount_id", listperiodicincomes[index].appuseraccount_id.toString());
+            setData("select-categoryincome_id", listcategoryincome[index].id.toString());
+            setData("checkbox-excludefrom_savingsgoal", listperiodicincomes[index].excludefrom_savingsgoal);
         }
     }
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        post('/nuevogasto', {
+        post('/nuevoingreso', {
             onSuccess: (result) => {
                 console.log(result);
             },
@@ -95,13 +95,13 @@ export default function NewExpense() {
             <WebAppLayout>
                 <div className="container mx-auto">
                     <div className="bg-brand-white rounded-md p-12">
-                        <h4 className="text-lg font-bold uppercase">Nuevo Gasto</h4>
+                        <h4 className="text-lg font-bold uppercase">Nuevo Ingreso</h4>
                         <hr className="my-3"></hr>
                         <form onSubmit={handleSubmit} autoComplete="false">
-                            <h5 className="text-lg mb-2">Usar plantilla de gasto periodico</h5>
+                            <h5 className="text-lg mb-2">Usar plantilla de ingreso periodico</h5>
                             <div className="w-1/3 mb-6">
-                                <BrandSelectForm label="Gasto Periodico" name="select-periodicexpense_id" onChange={(e) => { setData("select-periodicexpense_id", e.currentTarget.value); FillFieldwithPeriodicExpenseTemplate(parseFloat(e.currentTarget.value)) }}>
-                                    {listperiodicexpenses.map(function (item, index) {
+                                <BrandSelectForm label="Gasto Periodico" name="select-periodicexpense_id" onChange={(e) => { setData("select-periodicincome_id", e.currentTarget.value); FillFieldwithPeriodicExpenseTemplate(parseFloat(e.currentTarget.value)) }}>
+                                    {listperiodicincomes.map(function (item, index) {
                                         return <option key={item.id} value={item.id}>{item.name}</option>
                                     })}
                                 </BrandSelectForm>
@@ -124,8 +124,8 @@ export default function NewExpense() {
                             </div>
                             <div className="flex gap-6 mb-4">
                                 <div className="flex-1/3 grow-0">
-                                    <BrandSelectForm label="Categoria" name="select-categoryexpense_id" onChange={(e) => { setData("select-categoryexpense_id", e.currentTarget.value) }} value={data["select-categoryexpense_id"]}>
-                                        {listcategoryexpense.map(function (item, index) {
+                                    <BrandSelectForm label="Categoria" name="select-categoryexpense_id" onChange={(e) => { setData("select-categoryincome_id", e.currentTarget.value) }} value={data["select-categoryincome_id"]}>
+                                        {listcategoryincome.map(function (item, index) {
                                             return <option key={item.id} value={item.id}>{item.name}</option>
                                         })}
                                     </BrandSelectForm>

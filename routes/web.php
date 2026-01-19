@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AppuserAccountController;
 use App\Http\Controllers\CategoryExpenseController;
+use App\Http\Controllers\CategoryIncomeController;
 use App\Http\Controllers\ExpenseRecordController;
+use App\Http\Controllers\IncomeRecordController;
 use App\Http\Controllers\PeriodicExpenseController;
+use App\Http\Controllers\PeriodicIncomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -30,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('miscuentas/nueva', [AppuserAccountController::class, 'store']);
 
     Route::get('accounts', [AppuserAccountController::class, 'get']);
-    Route::get('selectaccounts', [AppuserAccountController::class, 'getfromuser']); 
+    Route::get('selectaccounts', [AppuserAccountController::class, 'getfromuser']);
 
     //== Expenses ==//
     Route::get('gastos', function () {
@@ -46,15 +49,37 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('nuevogasto', [ExpenseRecordController::class, 'store']);
 
     //== Periodic Expense Record ===//
-    Route::get('nuevogastoperiodico', function(){
+    Route::get('nuevogastoperiodico', function () {
         return Inertia::render('new-periodic-expense');
     });
     Route::post('nuevogastoperiodico', [PeriodicExpenseController::class, 'store']);
 
     Route::get('selectperiodicexpenses', [PeriodicExpenseController::class, 'selectgetfromuser']);
 
-
     Route::get('category_expense/all', [CategoryExpenseController::class, 'all']);
+
+    //== Incomes ==//
+    Route::get('ingresos', function () {
+        return Inertia::render('incomes');
+    });
+
+    Route::get('ingresos/find', [IncomeRecordController::class, 'getfiltered']);
+
+    //== Income Record ==//
+    Route::get('nuevoingreso', function () {
+        return Inertia::render('new-income');
+    });
+    Route::post('nuevoingreso', [IncomeRecordController::class, 'store']);
+
+    //== Periodic Income Record ==//
+    Route::get('nuevoingresoperiodico', function () {
+        return Inertia::render('new-periodic-income');
+    });
+    Route::post('nuevoingresoperiodico', [PeriodicIncomeController::class, 'store']);
+
+    Route::get('selectperiodicincomes', [PeriodicIncomeController::class, 'selectgetfromuser']);
+
+    Route::get('category_income/all', [CategoryIncomeController::class, 'all']);
 });
 
 Route::middleware('guest')->group(function () {

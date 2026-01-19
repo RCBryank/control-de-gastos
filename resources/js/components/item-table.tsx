@@ -1,8 +1,8 @@
-import { TableRowExpenseItem } from "@/types";
+import { TableRowItem } from "@/types";
 import { DatetoYMDFormat, NumbertoFormatCurrency, StringFullDatetoNormalFormat } from "@/utils/format";
 import { useEffect, useState } from "react";
 
-export default function ExpenseItemTable({ index, props, onDoubleClickevent, selectionmode }: { index: number, props: TableRowExpenseItem, onDoubleClickevent: Function, selectionmode: boolean }) {
+export default function ItemTable({ index, props, onDoubleClickevent, selectionmode }: { index: number, props: TableRowItem, onDoubleClickevent: Function, selectionmode: boolean }) {
 
     const [selected, setselected] = useState(false);
 
@@ -31,7 +31,7 @@ export default function ExpenseItemTable({ index, props, onDoubleClickevent, sel
                 <td className="p-3">{props.categoryname}</td>
                 <td className="p-3">{props.name}</td>
                 <td className="p-3 text-end">{NumbertoFormatCurrency(props.amount)}</td>
-                <td className="p-3 text-end">{StringFullDatetoNormalFormat(props.expenserecord_date)}</td>
+                <td className="p-3 text-end">{StringFullDatetoNormalFormat(props.record_date)}</td>
             </tr>
         </>
     )

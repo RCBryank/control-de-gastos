@@ -67,10 +67,10 @@ export interface SelectPeriodicExpenseItem {
     notes: string
 }
 
-export interface TableRowExpenseItem {
+export interface TableRowItem {
     id: number,
     concept: string,
-    expenserecord_date: string,
+    record_date: string,
     amount: number,
     name: string,
     notes: string,
@@ -85,4 +85,14 @@ export interface NumberRange {
 export interface DateRange {
     min: Date,
     max: Date
+}
+
+export interface FiltersFields {
+    concept: string,
+    categoryexpense_id: string,
+    appuseraccount_id: string,
+    min: string,
+    max: string,
+    date_begin: string,
+    date_end: string
 }
