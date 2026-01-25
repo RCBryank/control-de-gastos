@@ -9,7 +9,7 @@ export default function BrandInputCheckboxForm({ children, propdivisChecked, cus
     const id = useId();
 
     const [divchecked, SetChecked] = useState<boolean>(propdivisChecked);
-    const [firstignoreAnimation, setFirstIgnoreAnimation] = useState<boolean>(true);
+    const [firstignoreAnimation, setFirstIgnoreAnimation] = useState<boolean>(!propdivisChecked);
 
     useEffect(() => {
         setTimeout(() => {

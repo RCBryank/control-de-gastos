@@ -78,10 +78,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('deleteincomerecord', [IncomeRecordController::class, 'delete']);
 
     //== Periodic Income Record ==//
+    Route::get('ingresosperiodicos', function () {
+        return Inertia::render('periodic-incomes');
+    });
+    Route::get('getperiodicincomes', [PeriodicIncomeController::class, 'getfromuser']);
+
     Route::get('nuevoingresoperiodico', function () {
         return Inertia::render('new-periodic-income');
     });
     Route::post('nuevoingresoperiodico', [PeriodicIncomeController::class, 'store']);
+
+    Route::get('editaringresoperiodico/{id}', [PeriodicIncomeController::class, 'edit']);
+    Route::put('editaringresoperiodico/{id}', [PeriodicIncomeController::class, 'update']);
+
+    Route::delete('deleteperiodicincome', [PeriodicIncomeController::class, 'delete']);
 
     Route::get('selectperiodicincomes', [PeriodicIncomeController::class, 'selectgetfromuser']);
 

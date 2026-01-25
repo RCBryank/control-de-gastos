@@ -24,6 +24,7 @@
     --color-brand-menuitem-selected: #2e2e2e;
     --color-brand-red: #9c2b2b;
     --color-brand-accounts-item-list-1: #e1e1e1; 
+    --color-brand-table-selected-row: #dbffe8;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

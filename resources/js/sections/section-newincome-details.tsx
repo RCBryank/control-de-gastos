@@ -7,16 +7,9 @@ import { DatetoYMDTimeFormat } from "@/utils/format";
 
 export default function SectionNewIncomeDetails({ listcategoryincome, listperiodicincomes, listappuseraccounts, data, setData, FillFieldwithPeriodicExpenseTemplate }:
     { listcategoryincome: SelectCategoryItem[], listperiodicincomes: SelectPeriodicExpenseItem[], listappuseraccounts: SelectAppUserAccountItem[], data: FormIncomeRecord, setData: any, FillFieldwithPeriodicExpenseTemplate: Function }) {
+
     return (
         <>
-            <h5 className="text-lg mb-2">Usar plantilla de ingreso periodico</h5>
-            <div className="w-1/3 mb-6">
-                <BrandSelectForm label="Gasto Periodico" name="select-periodicexpense_id" onChange={(e) => { setData("select-periodicincome_id", e.currentTarget.value); FillFieldwithPeriodicExpenseTemplate(parseFloat(e.currentTarget.value)) }}>
-                    {listperiodicincomes.map(function (item, index) {
-                        return <option key={item.id} value={item.id}>{item.name}</option>
-                    })}
-                </BrandSelectForm>
-            </div>
             <h5 className="text-lg mb-2">Detalles</h5>
             <div className="flex gap-6 mb-4">
                 <div className="flex-1/3 grow-0">

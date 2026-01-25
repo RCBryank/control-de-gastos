@@ -109,3 +109,29 @@ export interface FormIncomeRecord {
     'select-periodicincome_id': string,
     'select-appuseraccount_id': string
 }
+
+export interface TableRowPeriodicIncome {
+    'id': number,
+    'concept': string,
+    'date_begin': string,
+    'date_end': string,
+    'income_frequency': string,
+    'amount': number,
+    'excludefrom_savingsgoal': boolean,
+    'notes': string,
+    'category_name': category_name,
+
+}
+
+export interface FormPeriodicIncomeRecord {
+    '_method': string,
+    'input-concept': string,
+    'date-date_begin': string,
+    'date-date_end': string | null,
+    'input-income_frequency': string,
+    'input-amount': number,
+    'checkbox-excludefrom_savingsgoal': boolean,
+    'input-notes': string,
+    'select-categoryincome_id': string,
+    'select-appuseraccount_id': string
+}

@@ -11,9 +11,7 @@ import { DatetoYMDFormat, DatetoYMDTimeFormat } from "@/utils/format";
 import BrandTextAreaForm from "@/components/ui/brand-textarea-form";
 import SectionNewIncomeDetails from "@/sections/section-newincome-details";
 
-export default function NewIncome({ preloadeddata }: { preloadeddata: any }) {
-
-    //-TODO. Cambiar el input date por un input datetime
+export default function EditIncome({ preloadeddata }: { preloadeddata: any }) {
 
     const { data, setData, post, processing, errors } = useForm<FormIncomeRecord>({
         '_method': 'PUT',
@@ -52,8 +50,8 @@ export default function NewIncome({ preloadeddata }: { preloadeddata: any }) {
                 }];
                 _options.push(...response);
 
-                setlistperiodicincomes(_options);
-                setData("select-periodicincome_id", preloadeddata.periodicincome_id);
+                setlistperiodicincomes(response);
+                setData("select-periodicincome_id", "1");
             }
         });
     }, []);
@@ -102,7 +100,7 @@ export default function NewIncome({ preloadeddata }: { preloadeddata: any }) {
                         <form onSubmit={handleSubmit} autoComplete="false">
                             <SectionNewIncomeDetails listcategoryincome={listcategoryincome} listperiodicincomes={listperiodicincomes} listappuseraccounts={listappuseraccounts} data={data} setData={setData} FillFieldwithPeriodicExpenseTemplate={FillFieldwithPeriodicExpenseTemplate}></SectionNewIncomeDetails>
                             <div className="flex justify-end gap-3">
-                                <BrandAnchorSecondaryButton href="/dashboard">Cancelar</BrandAnchorSecondaryButton>
+                                <BrandAnchorSecondaryButton href="/ingresos">Cancelar</BrandAnchorSecondaryButton>
                                 <BrandButtonPrimary disabled={processing}>Agregar</BrandButtonPrimary>
                             </div>
                         </form>

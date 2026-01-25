@@ -101,7 +101,7 @@ export default function Incomes() {
                             <BrandAnchorPrimaryButton href="nuevoingreso">Nuevo Ingreso</BrandAnchorPrimaryButton>
                         </div>
                         <div>
-                            <BrandAnchorPrimaryButton href="nuevoingresoperiodico">Nuevo Ingreso Periodico</BrandAnchorPrimaryButton>
+                            <BrandAnchorPrimaryButton href="ingresosperiodicos">Ingresos Periodicos</BrandAnchorPrimaryButton>
                         </div>
                     </div>
                     <div className="p-4 mb-6 bg-brand-white rounded-md">
@@ -137,7 +137,9 @@ export default function Incomes() {
                     <div className="flex gap-6">
                         <p className="my-6 text-brand-white">Haz doble click sobre un registro para ver mas acciones</p>
                         <div className="ml-auto" hidden={!selectionmode}>
-                            <BrandButtonPrimary disabled={SelectedRows.length > 1}>Editar</BrandButtonPrimary> &nbsp;
+                            <div className="inline-block">
+                                <BrandAnchorPrimaryButton disabled={SelectedRows.length > 1} href={"/editaringreso/" + SelectedRows[0]}>Editar</BrandAnchorPrimaryButton> &nbsp;
+                            </div>
                             <div className="inline-block">
                                 <SectionDeleteTableRecords hrefdelete="deleteincomerecord" selectedrows={SelectedRows} onDeleteSuccess={() => { SearchFilterResults(); setSelectedRows([]); }}></SectionDeleteTableRecords>
                             </div>
@@ -166,3 +168,5 @@ export default function Incomes() {
         </>
     )
 }
+
+/** <BrandAnchorPrimaryButton href="nuevoingresoperiodico">Nuevo Ingreso Periodico</BrandAnchorPrimaryButton> */

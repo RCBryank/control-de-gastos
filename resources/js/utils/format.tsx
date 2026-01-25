@@ -6,12 +6,18 @@ export function NumbertoFormatCurrency(value: number) {
     }).format(value);
 }
 
+export function YMDToNormalFormat(ymdstring: string) {
+    const _split = ymdstring.split('-');
+
+    return _split[2] + "/" + _split[1] + "/" + _split[0];
+}
+
 export function DatetoYMDFormat(date: Date) {
     return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 }
 
 export function DatetoYMDTimeFormat(date: Date) {
-    return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + " " + date.getHours().toString().padStart(2,'0') + ":" + (date.getMinutes().toString().padStart(2, '0'));
+    return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + " " + date.getHours().toString().padStart(2, '0') + ":" + (date.getMinutes().toString().padStart(2, '0'));
 }
 
 export function StringFullDatetoNormalFormat(date: string) {
