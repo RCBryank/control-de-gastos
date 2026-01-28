@@ -108,7 +108,7 @@ export default function NewPeriodicIcnome() {
                                 <BrandTextAreaForm name="input-notes" onChange={(e) => { setData("input-notes", e.currentTarget.value) }}>Notas</BrandTextAreaForm>
                             </div>
                             <div className="flex justify-end gap-3">
-                                <BrandAnchorSecondaryButton href="/gastos">Cancelar</BrandAnchorSecondaryButton>
+                                <BrandAnchorSecondaryButton href="/ingresosperiodicos">Cancelar</BrandAnchorSecondaryButton>
                                 <BrandButtonPrimary disabled={false}>Agregar</BrandButtonPrimary>
                             </div>
                         </form>

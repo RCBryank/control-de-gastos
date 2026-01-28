@@ -3,6 +3,7 @@ import BrandAnchorPrimaryButton from "@/components/ui/brand-anchor-primarybutton
 import BrandAnchorSecondaryButton from "@/components/ui/brand-anchor-secondarybutton";
 import WebAppLayout from "@/layouts/webapp-layout";
 import SectionDeleteTableRecords from "@/sections/section-deletetablerecords";
+import SectionNextPeriodicIncomes from "@/sections/section-nextperiodicincomes";
 import { TableRowPeriodicIncome } from "@/types";
 import { useEffect, useState } from "react";
 
@@ -53,7 +54,7 @@ export default function PeriodicIncomes() {
         <>
             <WebAppLayout>
                 <div className="container mx-auto">
-                    <div className="mb-6 flex gap-6">
+                    <div className="mb-12 flex gap-6">
                         <div>
                             <BrandAnchorSecondaryButton href="ingresos">Regresar</BrandAnchorSecondaryButton>
                         </div>
@@ -61,13 +62,14 @@ export default function PeriodicIncomes() {
                             <BrandAnchorPrimaryButton href="nuevoingresoperiodico">Nuevo Ingreso Periodico</BrandAnchorPrimaryButton>
                         </div>
                     </div>
-                    <div className="flex gap-6">
-                        <p className="my-6 text-brand-white">Haz doble click sobre un registro para ver mas acciones</p>
-                        <div className="ml-auto" hidden={!selectionmode}>
-                            <div className="inline-block">
-                                <BrandAnchorPrimaryButton disabled={SelectedRows.length > 1} href={"editaringresoperiodico/" + SelectedRows[0]}>Editar</BrandAnchorPrimaryButton> &nbsp;
-                            </div>
-                            <div className="inline-block">
+                    <div className="mb-12">
+                        <SectionNextPeriodicIncomes></SectionNextPeriodicIncomes>
+                    </div>
+                    <div className="flex gap-6 min-h-18">
+                        <p className="mb-6 text-brand-white">Haz doble click sobre un registro para ver mas acciones</p>
+                        <div className="ml-auto">
+                            <div className={"flex gap-4 " + (selectionmode ? "visible" : "hidden")}>
+                                <BrandAnchorPrimaryButton disabled={SelectedRows.length > 1} href={"editaringresoperiodico/" + SelectedRows[0]}>Editar</BrandAnchorPrimaryButton>
                                 <SectionDeleteTableRecords hrefdelete="deleteperiodicincome" selectedrows={SelectedRows} onDeleteSuccess={() => { OnDeleteSuccessHandler(); }}></SectionDeleteTableRecords>
                             </div>
                         </div>

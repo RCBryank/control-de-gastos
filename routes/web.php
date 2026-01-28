@@ -94,6 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('deleteperiodicincome', [PeriodicIncomeController::class, 'delete']);
 
     Route::get('selectperiodicincomes', [PeriodicIncomeController::class, 'selectgetfromuser']);
+    Route::get('nextperiodicincomes', [PeriodicIncomeController::class, 'getnextperiodicincomes']);
 
     Route::get('category_income/all', [CategoryIncomeController::class, 'all']);
 });

@@ -135,3 +135,11 @@ export interface FormPeriodicIncomeRecord {
     'select-categoryincome_id': string,
     'select-appuseraccount_id': string
 }
+
+export interface NextPeriodRecord {
+    'periodicrecord_id': string,
+    'concept': string,
+    'amount': number,
+    'accountname': string,
+    'date': string
+}

@@ -65,6 +65,6 @@ class ExpenseRecordController extends Controller
             "periodicexpense_id" => $request->input('select-periodicexpense_id') == '0' ? null : $request->input('select-periodicexpense_id')
         ]);
 
-        return redirect()->to('dashboard')->with("success");
+        return redirect()->to('gastos')->with("success");
     }
 }
