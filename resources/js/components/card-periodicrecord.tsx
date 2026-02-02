@@ -1,7 +1,7 @@
 import { NextPeriodRecord } from "@/types";
 import { NumbertoFormatCurrency, YMDToNormalFormat } from "@/utils/format";
 
-export default function CardPeriodicIncome({ itemprops }: { itemprops: NextPeriodRecord }) {
+export default function CardPeriodic({ itemprops }: { itemprops: NextPeriodRecord }) {
     return (
         <>
             <div className="shrink-0 w-64 bg-white rounded-lg overflow-hidden">

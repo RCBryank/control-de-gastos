@@ -7,15 +7,19 @@ import SectionNextPeriodicRecords from "@/sections/section-nextperiodicrecords";
 import { TableRowPeriodicRecord } from "@/types";
 import { useEffect, useState } from "react";
 
-export default function PeriodicIncomes() {
+export default function PeriodicExpenses() {
 
     const [tableresults, settableresults] = useState<TableRowPeriodicRecord[]>([]);
     const [selectionmode, setselectionmode] = useState<boolean>(false);
     const [SelectedRows, setSelectedRows] = useState<number[]>([]);
 
     useEffect(() => {
-        fetch('getperiodicincomes').then((response) => response.json()).then((response) => {
+        fetch("getperiodicexpenses").then((response) => response.json()).then((response) => {
             settableresults(response);
+        });
+
+        fetch("nextperiodicexpenses").then((response) => response.json()).then((response) => {
+            
         });
     }, []);
 
@@ -24,20 +28,9 @@ export default function PeriodicIncomes() {
     }, [SelectedRows]);
 
     const RenderTableResults = () => {
-        if (tableresults.length > 0) {
-            return tableresults.map((item, index) => {
-                return <><ItemTablePeriodic key={index} index={item.id} item={item} onDoubleClickevent={ShowSelectionMode} selectionmode={selectionmode}></ItemTablePeriodic></>
-            })
-        }
-
-        return <tr><td className="p-3" colSpan={7}><p>Sin Resultados</p></td></tr>
-    }
-
-    function OnDeleteSuccessHandler() {
-        const _newarray = [...tableresults].filter(x => !!SelectedRows.find(item2 => x.id != item2));
-        settableresults(_newarray);
-
-        setSelectedRows([]);
+        return tableresults.map(function (ritem, index) {
+            return <ItemTablePeriodic index={ritem.id} key={ritem.id} item={ritem} onDoubleClickevent={ShowSelectionMode} selectionmode={selectionmode}></ItemTablePeriodic>
+        })
     }
 
     function ShowSelectionMode(index: number, selected: boolean) {
@@ -50,27 +43,34 @@ export default function PeriodicIncomes() {
         }
     }
 
+    function OnDeleteSuccessHandler() {
+        const _newarray = [...tableresults].filter(x => !!SelectedRows.find(item2 => x.id != item2));
+        settableresults(_newarray);
+
+        setSelectedRows([]);
+    }
+
     return (
         <>
             <WebAppLayout>
                 <div className="container mx-auto">
                     <div className="mb-12 flex gap-6">
                         <div>
-                            <BrandAnchorSecondaryButton href="ingresos">Regresar</BrandAnchorSecondaryButton>
+                            <BrandAnchorSecondaryButton href="gastos">Regresar</BrandAnchorSecondaryButton>
                         </div>
                         <div>
-                            <BrandAnchorPrimaryButton href="nuevoingresoperiodico">Nuevo Ingreso Periodico</BrandAnchorPrimaryButton>
+                            <BrandAnchorPrimaryButton href="nuevogastoperiodico">Nuevo Gasto Periodico</BrandAnchorPrimaryButton>
                         </div>
                     </div>
                     <div className="mb-12">
-                        <SectionNextPeriodicRecords href="getperiodicincomes">Próximos ingresos programados</SectionNextPeriodicRecords>
+                        <SectionNextPeriodicRecords href="nextperiodicexpenses">Próximos gastos programados</SectionNextPeriodicRecords>
                     </div>
                     <div className="flex gap-6 min-h-18">
                         <p className="mb-6 text-brand-white">Haz doble click sobre un registro para ver mas acciones</p>
                         <div className="ml-auto">
                             <div className={"flex gap-4 " + (selectionmode ? "visible" : "hidden")}>
-                                <BrandAnchorPrimaryButton disabled={SelectedRows.length > 1} href={"editaringresoperiodico/" + SelectedRows[0]}>Editar</BrandAnchorPrimaryButton>
-                                <SectionDeleteTableRecords hrefdelete="deleteperiodicincome" selectedrows={SelectedRows} onDeleteSuccess={() => { OnDeleteSuccessHandler(); }}></SectionDeleteTableRecords>
+                                <BrandAnchorPrimaryButton disabled={SelectedRows.length > 1} href={"editargastoperiodico/" + SelectedRows[0]}>Editar</BrandAnchorPrimaryButton>
+                                <SectionDeleteTableRecords hrefdelete="deleteperiodicexpense" selectedrows={SelectedRows} onDeleteSuccess={() => { OnDeleteSuccessHandler(); }}></SectionDeleteTableRecords>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@ export default function PeriodicIncomes() {
                         </table>
                     </div>
                 </div>
-            </WebAppLayout >
+            </WebAppLayout>
         </>
     )
 }

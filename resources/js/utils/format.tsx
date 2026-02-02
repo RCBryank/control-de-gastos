@@ -7,6 +7,9 @@ export function NumbertoFormatCurrency(value: number) {
 }
 
 export function YMDToNormalFormat(ymdstring: string) {
+    if (ymdstring == null)
+        return "";
+
     const _split = ymdstring.split('-');
 
     return _split[2] + "/" + _split[1] + "/" + _split[0];

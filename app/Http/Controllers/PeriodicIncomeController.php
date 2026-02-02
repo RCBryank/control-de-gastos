@@ -21,7 +21,7 @@ class PeriodicIncomeController extends Controller
     {
         $user = Auth::user();
 
-        $results  = Periodic_Income::select("periodic_income.id", "concept", "date_begin", "date_end", "income_frequency", "amount", "excludefrom_savingsgoal", "notes", "category_income.name as category_name")
+        $results  = Periodic_Income::select("periodic_income.id", "concept", "date_begin", "date_end", DB::raw("income_frequency as 'frequency'") , "amount", "excludefrom_savingsgoal", "notes", "category_income.name as category_name")
             ->join("appuser_account", "appuser_account.id", "appuseraccount_id")
             ->join("category_income", "category_income.id", "categoryincome_id")
             ->where("appuser_id", $user->id)

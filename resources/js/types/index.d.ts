@@ -98,6 +98,11 @@ export interface FiltersFields {
     date_end: string
 }
 
+export interface HttpRequestResponse {
+    data: any,
+    errors: any
+}
+
 export interface FormIncomeRecord {
     '_method': string,
     'input-concept': string,
@@ -110,17 +115,16 @@ export interface FormIncomeRecord {
     'select-appuseraccount_id': string
 }
 
-export interface TableRowPeriodicIncome {
+export interface TableRowPeriodicRecord {
     'id': number,
     'concept': string,
     'date_begin': string,
     'date_end': string,
-    'income_frequency': string,
+    'frequency': string,
     'amount': number,
     'excludefrom_savingsgoal': boolean,
     'notes': string,
     'category_name': category_name,
-
 }
 
 export interface FormPeriodicIncomeRecord {
@@ -136,7 +140,21 @@ export interface FormPeriodicIncomeRecord {
     'select-appuseraccount_id': string
 }
 
+export interface FormPeriodicExpenseRecord {
+    '_method': string,
+    'input-concept': string,
+    'date-date_begin': string,
+    'date-date_end': string | null,
+    'input-billing_frequency': string,
+    'input-amount': number,
+    'checkbox-excludefrom_savingsgoal': boolean,
+    'input-notes': string,
+    'select-categoryexpense_id': string,
+    'select-appuseraccount_id': string
+}
+
 export interface NextPeriodRecord {
+    'unique_id': number,
     'periodicrecord_id': string,
     'concept': string,
     'amount': number,

@@ -109,7 +109,7 @@ export default function NewPeriodicExpense() {
                                 <BrandTextAreaForm name="input-notes" onChange={(e) => { setData("input-notes", e.currentTarget.value) }}>Notas</BrandTextAreaForm>
                             </div>
                             <div className="flex justify-end gap-3">
-                                <BrandAnchorSecondaryButton href="/gastos">Cancelar</BrandAnchorSecondaryButton>
+                                <BrandAnchorSecondaryButton href="/gastosperiodicos">Cancelar</BrandAnchorSecondaryButton>
                                 <BrandButtonPrimary disabled={processing}>Agregar</BrandButtonPrimary>
                             </div>
                         </form>

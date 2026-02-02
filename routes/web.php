@@ -50,12 +50,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('nuevogasto', [ExpenseRecordController::class, 'store']);
 
     //== Periodic Expense Record ===//
+    Route::get('gastosperiodicos', function () {
+        return Inertia::render('periodic-expenses');
+    });
+    Route::get('getperiodicexpenses', [PeriodicExpenseController::class, 'getfromuser']);
+
     Route::get('nuevogastoperiodico', function () {
         return Inertia::render('new-periodic-expense');
     });
     Route::post('nuevogastoperiodico', [PeriodicExpenseController::class, 'store']);
 
+    Route::get('editargastoperiodico/{id}', [PeriodicExpenseController::class, 'edit']);
+    Route::put('editargastoperiodico/{id}', [PeriodicExpenseController::class, 'update']);
+
+    Route::delete('deleteperiodicexpense', [PeriodicExpenseController::class, 'delete']);
+
     Route::get('selectperiodicexpenses', [PeriodicExpenseController::class, 'selectgetfromuser']);
+    Route::get('nextperiodicexpenses', [PeriodicExpenseController::class, 'getnextperiodicexpenses']);
 
     Route::get('category_expense/all', [CategoryExpenseController::class, 'all']);
 

@@ -103,7 +103,7 @@ export default function Expenses() {
                             <BrandAnchorButtonNewExpense href="nuevogasto">Nuevo Gasto</BrandAnchorButtonNewExpense>
                         </div>
                         <div>
-                            <BrandAnchorButtonNewExpense href="nuevogastoperiodico">Nuevo Gasto Periodico</BrandAnchorButtonNewExpense>
+                            <BrandAnchorButtonNewExpense href="gastosperiodicos">Gastos Periodicos</BrandAnchorButtonNewExpense>
                         </div>
                     </div>
                     <div className="p-4 mb-6 bg-brand-white rounded-md">
