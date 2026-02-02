@@ -24,9 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     //== Accounts ==/
-    Route::get('miscuentas', function () {
-        return Inertia::render('accounts');
-    })->name('accounts');
+    Route::get('miscuentas', [AppuserAccountController::class, 'index'])->name('accounts');
 
     Route::get('miscuentas/nueva', function () {
         return Inertia::render('new-account');
@@ -35,6 +33,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('accounts', [AppuserAccountController::class, 'get']);
     Route::get('selectaccounts', [AppuserAccountController::class, 'getfromuser']);
+
+    Route::get('lastactivityfromaccounts', [AppuserAccountController::class, 'getLastActivityfromAccounts']);
+    Route::get('weeklybalances', [AppuserAccountController::class, 'getWeeklyBalance']);
+    Route::get('monthlybalances', [AppuserAccountController::class, 'getMonthlyBalance']);
 
     //== Expenses ==//
     Route::get('gastos', function () {

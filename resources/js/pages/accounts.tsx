@@ -5,17 +5,44 @@ import SVGGridView from "@/components/ui/svg-grid-view";
 import SVGListView from "@/components/ui/svg-listview";
 import WebAppLayout from "@/layouts/webapp-layout";
 import { useEffect, useState } from "react";
-import { ListAccountItem } from "@/types/index";
+import { Balance, LastActivityfromAccount, ListAccountItem } from "@/types/index";
+import { getLastActivityfromAccounts } from "@/actions/App/Http/Controllers/AppuserAccountController";
 
-export default function Accounts() {
+export default function Accounts({ accounts }: { accounts: any }) {
 
     const [listaccounts, setlistaccounts] = useState<ListAccountItem[]>([]);
+    const [listlastactivities, setlistlastactivites] = useState<LastActivityfromAccount[]>([]);
+    const [listweeklybalances, setlistweeklybalances] = useState<Balance[]>([]);
+    const [listmonthlyybalances, setlistmonthlybalances] = useState<Balance[]>([]);
 
     const listColorsAvailable = ["#9cbffd", "#eefd9c", "#d19eff"];
 
+    function GetLastActivityfromAccount(appuseraccountid: number) {
+        const _item = listlastactivities.find(x => x.appuseraccount_id == appuseraccountid);
+        return _item;
+    }
+
+    function GetWeeklyBalance(appuseraccountid: number) {
+        const _item = listweeklybalances.find(x => x.appuseraccount_id == appuseraccountid);
+        return _item?.finalbalance;
+    }
+
+    function GetMonthlyBalance(appuseraccountid: number) {
+        const _item = listmonthlyybalances.find(x => x.appuseraccount_id == appuseraccountid);
+        return _item?.finalbalance;
+    }
+
     useEffect(() => {
-        fetch('/accounts').then(response => response.json()).then(data => {
-            setlistaccounts(data);
+        fetch('/lastactivityfromaccounts').then(response => response.json()).then(data => {
+            setlistlastactivites(data);
+        });
+
+        fetch('/weeklybalances').then(response => response.json()).then(data => {
+            setlistweeklybalances(data);
+        });
+
+        fetch('/monthlybalances').then(response => response.json()).then(data => {
+            setlistmonthlybalances(data);
         })
     }, []);
 
@@ -41,9 +68,10 @@ export default function Accounts() {
                     </div>
                     <div className="mb-12 flex flex-col gap-12">
                         {
-                            listaccounts.map((item, index) => {
-                                return <AccountItemList key={item.id} props={item} color={listColorsAvailable[index]}></AccountItemList>
-                            })
+                            accounts.map((item: any, index: any) => {
+                                return <AccountItemList key={item.id} props={item} lastactivity={GetLastActivityfromAccount(item.id)} weeklybalance={GetWeeklyBalance(item.id)} monthlybalance={GetMonthlyBalance(item.id)} color={listColorsAvailable[index]}></AccountItemList>
+                            }) /*
+                           <></> */
                         }
                     </div>
                 </div>

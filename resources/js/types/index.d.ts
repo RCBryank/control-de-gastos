@@ -45,7 +45,22 @@ export interface User {
 export interface ListAccountItem {
     id: number,
     name: string,
-    account_balance: number
+    account_balance: number,
+    lastconcept: string,
+    amountlastconcept: number,
+    datelastconcept: string
+}
+
+export interface LastActivityfromAccount {
+    appuseraccount_id: number,
+    concept: string,
+    amount: number,
+    recorddate: string
+}
+
+export interface Balance {
+    appuseraccount_id: number,
+    finalbalance: number
 }
 
 export interface SelectCategoryItem {
