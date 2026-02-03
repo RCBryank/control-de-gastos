@@ -22,7 +22,7 @@ export default function AccountItemList({ props, lastactivity, weeklybalance, mo
                     <div className="flex-1 flex flex-col justify-between">
                         <div className="flex gap-6 justify-end">
                             <p className="text-md">Última Actividad</p>
-                            <p className="text-lg">{RenderLastActivity()}</p>
+                            {RenderLastActivity()}
                         </div>
                         <div className="flex gap-6 justify-end">
                             <p className="text-lg">Balance Semanal</p>

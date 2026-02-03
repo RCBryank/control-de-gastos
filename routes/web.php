@@ -7,6 +7,7 @@ use App\Http\Controllers\ExpenseRecordController;
 use App\Http\Controllers\IncomeRecordController;
 use App\Http\Controllers\PeriodicExpenseController;
 use App\Http\Controllers\PeriodicIncomeController;
+use App\Http\Controllers\SavingGoalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,6 +38,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('lastactivityfromaccounts', [AppuserAccountController::class, 'getLastActivityfromAccounts']);
     Route::get('weeklybalances', [AppuserAccountController::class, 'getWeeklyBalance']);
     Route::get('monthlybalances', [AppuserAccountController::class, 'getMonthlyBalance']);
+
+    //== Saving Goal ==//
+    Route::get('metasdeahorro', [SavingGoalController::class, 'index']);
+    Route::get('savinggoals', [SavingGoalController::class, 'getfromuser']);
+
+    Route::get('metasdeahorro/nueva', function () {
+        return Inertia::render('new-savinggoal');
+    });
+    Route::post('metasdeahorro/nueva', [SavingGoalController::class, 'store']);
 
     //== Expenses ==//
     Route::get('gastos', function () {

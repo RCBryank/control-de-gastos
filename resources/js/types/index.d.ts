@@ -93,6 +93,16 @@ export interface TableRowItem {
     categoryname: string
 }
 
+export interface TableRowItemSavingGoal {
+    id: number,
+    name: string,
+    date_begin: string,
+    date_end: string,
+    target_amount: number,
+    appuseraccount_id: number,
+    appuseraccount_name: string
+}
+
 export interface NumberRange {
     min: number,
     max: number
